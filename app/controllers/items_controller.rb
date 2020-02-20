@@ -4,6 +4,8 @@ class ItemsController<ApplicationController
     if params[:merchant_id]
       @merchant = Merchant.find(params[:merchant_id])
       @items = @merchant.items
+    elsif
+      @items = Item.where('active? == true')
     else
       @items = Item.all
     end
