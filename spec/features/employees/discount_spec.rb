@@ -18,9 +18,9 @@ RSpec.describe "As an merchant employee,", type: :feature do
 
       visit '/merchant'
 
-      expect(page).to click_link('Bulk Discounts')
+      click_link('Bulk Discounts')
 
-      expect(current_path).to eq('/merchant/discounts')
+      expect(current_path).to eq("/merchant/discounts/#{mike.id}")
 
       expect(page).to have_content('Discount 20% on 20 items or more')
       expect(page).to have_content('Discount 10% on 10 items or more')
