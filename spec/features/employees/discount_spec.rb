@@ -8,7 +8,7 @@ RSpec.describe "As an merchant employee,", type: :feature do
       mike = Merchant.create!(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
       mike = Merchant.create!(name: "Monsters Inc Shoppe", address: '334 nothing st', city: 'Moab', state: 'UT', zip: 48903)
 
-      mike.users << @user
+      mike.users << user
 
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
 
