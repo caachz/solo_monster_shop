@@ -44,14 +44,14 @@ RSpec.describe "As an merchant employee,", type: :feature do
 
       visit "/merchant/discounts/#{mike.id}"
 
-      click_link "Add a new discount!"
+      click_link "Add a new discount"
 
-      expect(current_path).to eq("/merchant/discounts/#{mike.id}/new")
+      expect(current_path).to eq("/merchant/discounts/new")
 
-      fill_in "Quantity Threshold", with: "7"
+      fill_in "Quantity", with: "7"
       fill_in "Discount", with: "75"
 
-      click_on "Submit"
+      click_on "Create Discount"
 
       expect(current_path).to eq("/merchant/discounts/#{mike.id}")
 

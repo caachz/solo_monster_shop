@@ -1,3 +1,5 @@
 <%@discounts.each do |discount|%>
   Discount <%=discount.discount%>% on <%=discount.quantity%> items or more
 <%end%>
+
+<%= link_to 'Add a new discount', new_merchant_discount_path%>
