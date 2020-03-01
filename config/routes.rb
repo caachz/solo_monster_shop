@@ -29,7 +29,7 @@ Rails.application.routes.draw do
     get '/', to: 'merchant#show'
     resources :orders, only: [:show]
     resources :items, only: [:index, :update, :destroy]
-    resources :discounts, only:[:show, :new, :create]
+    resources :discounts, only:[:index, :new, :create, :update]
   end
 
   namespace :admin do

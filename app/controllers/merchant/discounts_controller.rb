@@ -1,6 +1,6 @@
 class Merchant::DiscountsController < ApplicationController
-  def show
-    @discounts = Discount.where("merchant_id = #{params[:id]}")
+  def index
+    @discounts = Discount.where("merchant_id = #{current_user.merchants.first.id}")
   end
 
   def new
@@ -13,7 +13,7 @@ class Merchant::DiscountsController < ApplicationController
     merchant.discounts << discount
     if discount.save
       flash[:notice] = "A bulk discount of #{discount.discount} has been added to your shop"
-      redirect_to  merchant_discount_path(merchant.id)
+      redirect_to merchant_discounts_path
     else
       flash[:error] = discount.errors.full_messages.to_sentence
       render :new
