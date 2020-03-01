@@ -72,8 +72,8 @@ RSpec.describe "As an merchant employee,", type: :feature do
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
 
       discount1 = Discount.create!(merchant: mike, quantity: 20, discount: 20)
-      discount1 = Discount.create!(merchant: mike, quantity: 10, discount: 10)
-      discount1 = Discount.create!(merchant: mike, quantity: 5, discount: 5)
+      discount2 = Discount.create!(merchant: mike, quantity: 10, discount: 10)
+      discount3 = Discount.create!(merchant: mike, quantity: 5, discount: 5)
 
       visit merchant_discounts_path
 
@@ -81,14 +81,14 @@ RSpec.describe "As an merchant employee,", type: :feature do
         click_on "Edit Discount"
       end
 
-      expect(current_path).to eq("/merchant/discounts/#{discount1.id}")
+      expect(current_path).to eq("/merchant/discounts/#{discount1.id}/edit")
 
       fill_in "Quantity", with: "7"
       fill_in "Discount", with: "75"
 
       click_on "Update Discount"
 
-      expect(current_path).to eq(edit_merchant_discount(discount1.id))
+      expect(current_path).to eq(merchant_discounts_path)
 
       expect(page).to_not have_content('Discount 20% on 20 items or more')
       expect(page).to have_content('Discount 10% on 10 items or more')

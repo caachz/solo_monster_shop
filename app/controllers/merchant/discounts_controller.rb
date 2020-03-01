@@ -20,6 +20,21 @@ class Merchant::DiscountsController < ApplicationController
     end
   end
 
+  def edit
+    @discount = Discount.find(params[:id])
+  end
+
+  def update
+    discount = Discount.find(params[:id])
+    if discount.update(discount_params)
+      flash[:notice] = "You have successfully updated discount id #{discount.id}"
+      redirect_to merchant_discounts_path
+    else
+      flash[:error] = discount.errors.full_messages.to_sentence
+      render :new
+    end
+  end
+
   private
     def discount_params
       params.require(:discount).permit(:quantity, :discount)
