@@ -88,7 +88,12 @@ RSpec.describe "As an merchant employee,", type: :feature do
 
       click_on "Update Discount"
 
+      expect(current_path).to eq(edit_merchant_discount(discount1.id))
 
+      expect(page).to_not have_content('Discount 20% on 20 items or more')
+      expect(page).to have_content('Discount 10% on 10 items or more')
+      expect(page).to have_content('Discount 5% on 5 items or more')
+      expect(page).to have_content('Discount 75% on 7 items or more')
     end
 
     it "On my bulk discounts page I can delete an existing bulk discount" do
