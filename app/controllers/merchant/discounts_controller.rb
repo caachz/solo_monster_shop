@@ -35,6 +35,13 @@ class Merchant::DiscountsController < ApplicationController
     end
   end
 
+  def destroy
+    discount = Discount.find(params[:id])
+    discount.destroy
+    flash[:notice] = "#{discount.id} has been removed from your store"
+    redirect_to merchant_discounts_path
+  end
+
   private
     def discount_params
       params.require(:discount).permit(:quantity, :discount)
