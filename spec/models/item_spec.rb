@@ -29,11 +29,11 @@ describe Item, type: :model do
       @review_5 = @chain.reviews.create(title: "Okay place :/", content: "Brian's cool and all but just an okay selection of items", rating: 3)
     end
 
-    it "calculate average review" do
+    it "#calculate average review" do
       expect(@chain.average_review).to eq(3.0)
     end
 
-    it "sorts reviews" do
+    it "#sorts reviews" do
       top_three = @chain.sorted_reviews(3,:desc)
       bottom_three = @chain.sorted_reviews(3,:asc)
 
@@ -41,7 +41,7 @@ describe Item, type: :model do
       expect(bottom_three).to eq([@review_3,@review_4,@review_5])
     end
 
-    it 'no orders' do
+    it '#no orders' do
       user = create(:user)
       expect(@chain.no_orders?).to eq(true)
       order = Order.create(name: 'Meg', address: '123 Stang Ave', city: 'Hershey', state: 'PA', zip: 17033, user: user)
@@ -49,7 +49,14 @@ describe Item, type: :model do
       expect(@chain.no_orders?).to eq(false)
     end
 
-  it "topfive" do
+    it 'discount' do
+      discount1 = Discount.create!(merchant: @bike_shop, quantity: 3, discount: 10)
+
+      expect(@chain.discount(2)).to eq(nil)
+      expect(@chain.discount(3)).to eq(discount1)
+    end
+
+  it ".topfive" do
     user = create(:user)
 
     bike_basket = @bike_shop.items.create!(name: "Bike Basket", description: "A place to put your junk.", price: 30, image: "https://images-na.ssl-images-amazon.com/images/I/4147WWbN64L._SX466_.jpg", inventory: 7)
@@ -75,7 +82,7 @@ describe Item, type: :model do
     expect(Item.topfive[4].quantity).to eq(2)
   end
 
-  it "bottomfive" do
+  it ".bottomfive" do
     user = create(:user)
 
     bike_basket = @bike_shop.items.create!(name: "Bike Basket", description: "A place to put your junk.", price: 30, image: "https://images-na.ssl-images-amazon.com/images/I/4147WWbN64L._SX466_.jpg", inventory: 7)
