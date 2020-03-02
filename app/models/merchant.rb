@@ -1,4 +1,5 @@
 class Merchant <ApplicationRecord
+  has_many :discounts
   has_many :merchant_employees
   has_many :users, through: :merchant_employees
   has_many :items, dependent: :destroy
