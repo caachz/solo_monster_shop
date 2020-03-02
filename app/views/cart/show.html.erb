@@ -27,7 +27,6 @@
       </td>
       <td>
         <p><%=number_to_currency(item.price)%></p>
-        <p><%=number_to_currency(item.price)%></p>
       </td>
       <td>
         <center>
@@ -39,6 +38,10 @@
         </td>
       <td>
         <p><%=number_to_currency(cart.subtotal(item))%></p>
+        <p><%if item.discount(quantity)%>
+            <%=item.discount(quantity).discount%>% discount applied!
+          <%end%>
+        </p>
     </td>
     </tr>
   <% end %>

@@ -26,31 +26,33 @@ RSpec.describe 'Bulk discounts applied in cart' do
       within "#cart-item-#{item2.id}" do
         expect(page).to have_content('1')
         expect(page).to have_content("$64.00")
+        expect(page).to_not have_content("10% discount applied")
         click_on "Add Quantity"
         expect(page).to have_content('2')
         expect(page).to have_content("$128.00")
         click_on "Add Quantity"
-
         expect(page).to have_content('3')
         expect(page).to have_content("$172.80")
-        # expect(page).to have_content("10% discount added")
+        expect(page).to have_content("10% discount applied")
       end
 
       within "#cart-item-#{item1.id}" do
         expect(page).to have_content('1')
         expect(page).to have_content("$20.00")
+        expect(page).to_not have_content("10% discount applied")
         click_on "Add Quantity"
         expect(page).to have_content('2')
         expect(page).to have_content("$40.00")
         click_on "Add Quantity"
         expect(page).to have_content('3')
         expect(page).to have_content("$54.00")
-        # expect(page).to have_content("10% discount added")
+        expect(page).to have_content("10% discount applied")
       end
 
       within "#cart-item-#{item3.id}" do
         expect(page).to have_content('1')
         expect(page).to have_content('$2.00')
+        expect(page).to_not have_content("10% discount applied")
         click_on "Add Quantity"
         expect(page).to have_content('2')
         expect(page).to have_content('$4.00')
@@ -60,6 +62,7 @@ RSpec.describe 'Bulk discounts applied in cart' do
         click_on "Add Quantity"
         expect(page).to have_content('4')
         expect(page).to have_content('$8.00')
+        expect(page).to_not have_content("10% discount applied")
       end
       expect(page).to have_content('Total: $234.80')
     end
@@ -87,19 +90,22 @@ RSpec.describe 'Bulk discounts applied in cart' do
         click_on "Add Quantity"
         expect(page).to have_content('2')
         expect(page).to have_content("$128.00")
+        expect(page).to_not have_content("10% discount applied")
         click_on "Add Quantity"
         expect(page).to have_content('3')
         expect(page).to have_content("$172.80")
+        expect(page).to have_content("10% discount applied")
         click_on "Add Quantity"
         expect(page).to have_content('4')
         expect(page).to have_content("$230.40")
         click_on "Add Quantity"
         expect(page).to have_content('5')
         expect(page).to have_content("$288.00")
+        expect(page).to have_content("10% discount applied")
         click_on "Add Quantity"
         expect(page).to have_content('6')
         expect(page).to have_content("$307.20")
-        # expect(page).to have_content("10% discount added")
+        expect(page).to have_content("20% discount applied")
       end
 
       within "#cart-item-#{item1.id}" do
@@ -108,9 +114,11 @@ RSpec.describe 'Bulk discounts applied in cart' do
         click_on "Add Quantity"
         expect(page).to have_content('2')
         expect(page).to have_content("$40.00")
+        expect(page).to_not have_content("10% discount applied")
         click_on "Add Quantity"
         expect(page).to have_content('3')
         expect(page).to have_content("$54.00")
+        expect(page).to have_content("10% discount applied")
         click_on "Add Quantity"
         expect(page).to have_content('4')
         expect(page).to have_content("$72.00")
@@ -120,7 +128,7 @@ RSpec.describe 'Bulk discounts applied in cart' do
         click_on "Add Quantity"
         expect(page).to have_content('6')
         expect(page).to have_content("$96.00")
-        # expect(page).to have_content("10% discount added")
+        expect(page).to have_content("20% discount applied")
       end
     end
 
@@ -144,6 +152,7 @@ RSpec.describe 'Bulk discounts applied in cart' do
       within "#cart-item-#{item2.id}" do
         expect(page).to have_content('1')
         expect(page).to have_content("$64.00")
+        expect(page).to_not have_content("10% discount applied")
         click_on "Add Quantity"
         expect(page).to have_content('2')
         expect(page).to have_content("$128.00")
@@ -153,17 +162,21 @@ RSpec.describe 'Bulk discounts applied in cart' do
         click_on "Add Quantity"
         expect(page).to have_content('4')
         expect(page).to have_content("$230.40")
+        expect(page).to have_content("10% discount applied")
       end
 
       within "#cart-item-#{item1.id}" do
         expect(page).to have_content('1')
         expect(page).to have_content("$20.00")
+        expect(page).to_not have_content("10% discount applied")
         click_on "Add Quantity"
         expect(page).to have_content('2')
         expect(page).to have_content("$40.00")
+        expect(page).to_not have_content("10% discount applied")
         click_on "Add Quantity"
         expect(page).to have_content('3')
         expect(page).to have_content("$54.00")
+        expect(page).to have_content("10% discount applied")
         click_on "Add Quantity"
         expect(page).to have_content('4')
         expect(page).to have_content("$72.00")
@@ -173,7 +186,7 @@ RSpec.describe 'Bulk discounts applied in cart' do
         click_on "Add Quantity"
         expect(page).to have_content('6')
         expect(page).to have_content("$96.00")
-        # expect(page).to have_content("10% discount added")
+        expect(page).to have_content("20% discount applied")
       end
     end
 
@@ -193,12 +206,15 @@ RSpec.describe 'Bulk discounts applied in cart' do
       within "#cart-item-#{item1.id}" do
         expect(page).to have_content('1')
         expect(page).to have_content("$20.00")
+        expect(page).to_not have_content("10% discount applied")
         click_on "Add Quantity"
         expect(page).to have_content('2')
         expect(page).to have_content("$40.00")
+        expect(page).to_not have_content("10% discount applied")
         click_on "Add Quantity"
         expect(page).to have_content('3')
         expect(page).to have_content("$54.00")
+        expect(page).to have_content("10% discount applied")
         click_on "Add Quantity"
         expect(page).to have_content('4')
         expect(page).to have_content("$72.00")
@@ -208,7 +224,7 @@ RSpec.describe 'Bulk discounts applied in cart' do
         click_on "Add Quantity"
         expect(page).to have_content('6')
         expect(page).to have_content("$96.00")
-        # expect(page).to have_content("10% discount added")
+        expect(page).to have_content("20% discount applied")
       end
     end
   end
