@@ -59,6 +59,7 @@ RSpec.describe 'Bulk discounts applied in cart' do
         expect(page).to have_content('$6.00')
         # expect(page).to_not have_content("10% discount added")
       end
+      expect(page).to have_content('Total: $232.80')
     end
 
     it "I can have many bulk discounts and only the highest discount will apply" do
