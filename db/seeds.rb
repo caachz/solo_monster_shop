@@ -55,5 +55,5 @@ ItemOrder.create(price: tire.price, quantity: 3, order: order3, item: tire)
 ItemOrder.create(price: pull_toy.price, quantity: 5, order: order4, item: pull_toy)
 ItemOrder.create(price: dog_bone.price, quantity: 4, order: order4, item: dog_bone)
 
-Discount.create!(merchant: bike_shop, quantity: 10, discount: 10)
-Discount.create!(merchant: bike_shop, quantity: 20, discount: 20)
+Discount.create!(merchant: bike_shop, quantity: 2, discount: 10)
+Discount.create!(merchant: bike_shop, quantity: 5, discount: 20)
