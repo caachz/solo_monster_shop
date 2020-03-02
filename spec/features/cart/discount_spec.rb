@@ -57,9 +57,11 @@ RSpec.describe 'Bulk discounts applied in cart' do
         click_on "Add Quantity"
         expect(page).to have_content('3')
         expect(page).to have_content('$6.00')
-        # expect(page).to_not have_content("10% discount added")
+        click_on "Add Quantity"
+        expect(page).to have_content('4')
+        expect(page).to have_content('$8.00')
       end
-      expect(page).to have_content('Total: $232.80')
+      expect(page).to have_content('Total: $234.80')
     end
 
     it "I can have many bulk discounts and only the highest discount will apply" do
@@ -208,12 +210,6 @@ RSpec.describe 'Bulk discounts applied in cart' do
         expect(page).to have_content("$96.00")
         # expect(page).to have_content("10% discount added")
       end
-    end
-
-    it "The discount will only be appiled to items that exceed that quantity threshold" do
-    end
-
-    it "If I have many items from different merchants only the discount from that merchant is applied" do
     end
   end
 end
