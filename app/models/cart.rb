@@ -23,7 +23,13 @@ class Cart
   end
 
   def subtotal(item)
-    item.price * @contents[item.id.to_s]
+    discount = item.discount(@contents[item.id.to_s])
+    if !discount
+      item.price * @contents[item.id.to_s]
+    else
+      percent = 1 - discount.discount * 0.01
+      ((item.price * percent) * @contents[item.id.to_s])
+    end
   end
 
   def total

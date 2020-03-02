@@ -25,6 +25,10 @@ class Item <ApplicationRecord
     item_orders.empty?
   end
 
+  def discount(quantity)
+    merchant.discounts.where("discounts.quantity <= #{quantity}").order("discounts.quantity DESC").first
+  end
+
   def self.topfive
     joins(:item_orders).group(:id).order('SUM(item_orders.quantity)DESC').limit(5).select('items.*, SUM(item_orders.quantity) as quantity')
   end
