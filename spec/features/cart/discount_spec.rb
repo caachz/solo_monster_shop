@@ -57,25 +57,159 @@ RSpec.describe 'Bulk discounts applied in cart' do
         click_on "Add Quantity"
         expect(page).to have_content('3')
         expect(page).to have_content('$6.00')
-        # expect(page).to_not have_content("10% discount added")
+        click_on "Add Quantity"
+        expect(page).to have_content('4')
+        expect(page).to have_content('$8.00')
       end
-      expect(page).to have_content('Total: $232.80')
+      expect(page).to have_content('Total: $234.80')
     end
 
     it "I can have many bulk discounts and only the highest discount will apply" do
+      merchant1 = Merchant.create!(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
 
+      discount1 = Discount.create!(merchant: merchant1, quantity: 3, discount: 10)
+      discount1 = Discount.create!(merchant: merchant1, quantity: 6, discount: 20)
+
+      item1 = merchant1.items.create(name: "Lined Paper", description: "Great for writing on!", price: 20, image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png", inventory: 25)
+      item2 = merchant1.items.create(name: "stuffed octopus", description: "snuggle bunnt", price: 64, image: "https://images-na.ssl-images-amazon.com/images/I/61yTBRbtvrL._AC_SY355_.jpg", inventory: 12)
+
+      visit "/items/#{item1.id}"
+      click_on "Add To Cart"
+
+      visit "/items/#{item2.id}"
+      click_on "Add To Cart"
+
+      visit "/cart"
+
+      within "#cart-item-#{item2.id}" do
+        expect(page).to have_content('1')
+        expect(page).to have_content("$64.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('2')
+        expect(page).to have_content("$128.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('3')
+        expect(page).to have_content("$172.80")
+        click_on "Add Quantity"
+        expect(page).to have_content('4')
+        expect(page).to have_content("$230.40")
+        click_on "Add Quantity"
+        expect(page).to have_content('5')
+        expect(page).to have_content("$288.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('6')
+        expect(page).to have_content("$307.20")
+        # expect(page).to have_content("10% discount added")
+      end
+
+      within "#cart-item-#{item1.id}" do
+        expect(page).to have_content('1')
+        expect(page).to have_content("$20.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('2')
+        expect(page).to have_content("$40.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('3')
+        expect(page).to have_content("$54.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('4')
+        expect(page).to have_content("$72.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('5')
+        expect(page).to have_content("$90.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('6')
+        expect(page).to have_content("$96.00")
+        # expect(page).to have_content("10% discount added")
+      end
     end
 
     it "I can have multiple different discounts for different quantities of items" do
+      merchant1 = Merchant.create!(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
+
+      discount1 = Discount.create!(merchant: merchant1, quantity: 3, discount: 10)
+      discount1 = Discount.create!(merchant: merchant1, quantity: 6, discount: 20)
+
+      item1 = merchant1.items.create(name: "Lined Paper", description: "Great for writing on!", price: 20, image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png", inventory: 25)
+      item2 = merchant1.items.create(name: "stuffed octopus", description: "snuggle bunnt", price: 64, image: "https://images-na.ssl-images-amazon.com/images/I/61yTBRbtvrL._AC_SY355_.jpg", inventory: 12)
+
+      visit "/items/#{item1.id}"
+      click_on "Add To Cart"
+
+      visit "/items/#{item2.id}"
+      click_on "Add To Cart"
+
+      visit "/cart"
+
+      within "#cart-item-#{item2.id}" do
+        expect(page).to have_content('1')
+        expect(page).to have_content("$64.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('2')
+        expect(page).to have_content("$128.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('3')
+        expect(page).to have_content("$172.80")
+        click_on "Add Quantity"
+        expect(page).to have_content('4')
+        expect(page).to have_content("$230.40")
+      end
+
+      within "#cart-item-#{item1.id}" do
+        expect(page).to have_content('1')
+        expect(page).to have_content("$20.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('2')
+        expect(page).to have_content("$40.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('3')
+        expect(page).to have_content("$54.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('4')
+        expect(page).to have_content("$72.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('5')
+        expect(page).to have_content("$90.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('6')
+        expect(page).to have_content("$96.00")
+        # expect(page).to have_content("10% discount added")
+      end
     end
 
     it "If I meet the threshold for the highest discount rate I only see that discount applied" do
-    end
+      merchant1 = Merchant.create!(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
 
-    it "The discount will only be appiled to items that exceed that quantity threshold" do
-    end
+      discount1 = Discount.create!(merchant: merchant1, quantity: 3, discount: 10)
+      discount1 = Discount.create!(merchant: merchant1, quantity: 6, discount: 20)
 
-    it "If I have many items from different merchants only the discount from that merchant is applied" do
+      item1 = merchant1.items.create(name: "Lined Paper", description: "Great for writing on!", price: 20, image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png", inventory: 25)
+
+      visit "/items/#{item1.id}"
+      click_on "Add To Cart"
+
+      visit "/cart"
+
+      within "#cart-item-#{item1.id}" do
+        expect(page).to have_content('1')
+        expect(page).to have_content("$20.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('2')
+        expect(page).to have_content("$40.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('3')
+        expect(page).to have_content("$54.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('4')
+        expect(page).to have_content("$72.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('5')
+        expect(page).to have_content("$90.00")
+        click_on "Add Quantity"
+        expect(page).to have_content('6')
+        expect(page).to have_content("$96.00")
+        # expect(page).to have_content("10% discount added")
+      end
     end
   end
 end
