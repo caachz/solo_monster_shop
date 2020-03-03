@@ -29,6 +29,14 @@ class Item <ApplicationRecord
     merchant.discounts.where("discounts.quantity <= #{quantity}").order("discounts.quantity DESC").first
   end
 
+  def discounted_price(quantity)
+    if discount(quantity)
+      price * (0.01 * (100 - discount(quantity).discount))
+    else
+      price
+    end
+  end
+
   def self.topfive
     joins(:item_orders).group(:id).order('SUM(item_orders.quantity)DESC').limit(5).select('items.*, SUM(item_orders.quantity) as quantity')
   end
