@@ -35,7 +35,7 @@
       </td>
 
       <td>
-        <%=number_to_currency(item.price * item[:qty]) %>
+        <%=number_to_currency(item.discounted_price(item[:qty]) * item[:qty]) %>
       </td>
 
     </tr>

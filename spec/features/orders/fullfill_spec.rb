@@ -164,7 +164,7 @@ RSpec.describe("Order Fullfillment") do
     item_order1 = ItemOrder.create(price: 6, quantity: 7, order: order, item: tire)
     item_order2 = ItemOrder.create(price: 2, quantity: 2, order: order, item: paper)
     item_order3 = ItemOrder.create(price: 1, quantity: 2, order: order, item: pencil, status: 1)
-    item_order4 = ItemOrder.create(price: 4, quantity: 3, order: order, item: highlighter)
+    item_order4 = ItemOrder.create(price: 1, quantity: 2, order: order, item: highlighter)
 
 
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
@@ -190,7 +190,6 @@ RSpec.describe("Order Fullfillment") do
     expect(page).to have_link("#{pencil.name}")
     expect(page).to have_content("#{item_order3.price}")
     expect(page).to have_content("#{item_order3.quantity}")
-
     expect(page).to have_content("#{highlighter.id}")
     expect(page).to have_link("#{highlighter.name}")
     expect(page).to have_content("#{item_order4.price}")

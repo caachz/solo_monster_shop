@@ -49,11 +49,18 @@ describe Item, type: :model do
       expect(@chain.no_orders?).to eq(false)
     end
 
-    it 'discount' do
+    it '#discount' do
       discount1 = Discount.create!(merchant: @bike_shop, quantity: 3, discount: 10)
 
       expect(@chain.discount(2)).to eq(nil)
       expect(@chain.discount(3)).to eq(discount1)
+    end
+
+    it '#discounted_price' do
+      discount1 = Discount.create!(merchant: @bike_shop, quantity: 3, discount: 10)
+
+      expect(@chain.discounted_price(2)).to eq(50)
+      expect(@chain.discounted_price(3)).to eq(45.0)
     end
 
   it ".topfive" do
