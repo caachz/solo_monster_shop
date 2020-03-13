@@ -1,79 +1,126 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  
 
 
+  # get "/", to: "welcome#index"
+  root to: "welcome#index"
 
-  get "/", to: "welcome#index"
+  # couldn't update to resource due to being a vanity route
   get '/login', to: 'sessions#new'
-  post '/login', to: 'sessions#create'
-  delete '/logout', to: 'sessions#destroy'
+
+  # post '/login', to: 'sessions#create'
+  resource :login, path: '/login', :controller => 'sessions', only: [:create]
+
+  # delete '/logout', to: 'sessions#destroy'
+  resource :logout, only: [:destroy], :controller => 'sessions', path: "/logout"
 
   scope module: :visitors do
     get '/register', to: "users#new"
-    post '/users', to: "users#create"
+    # resource :register, :controller => 'users', only: [:new]
+
+    # post '/users', to: "users#create"
+    resource :users, :controller => 'users', only: [:create]
   end
 
   scope module: :users do
-    # resource :profile, only: [:update]
-    get '/profile', to: 'users#show'
+    # get '/profile', to: 'users#show'
+    resource :profile, only: [:show], :controller => 'users'
+
+    # cannot change due to the prefix auto generating differently than is used throughout the code.
     get '/profile/edit', to: 'users#edit'
+
+    resource :profile do
+      # already resources
+      patch :password, :controller => 'users'
+    end
+
+    # Non restful route cannot be updated to resource
     get '/profile/edit/password', to: 'users#change_password'
-    patch '/users', to: 'users#update'
+
+    # patch '/users', to: 'users#update'
+    resource :users, only: [:update]
 
     scope :profile do
+      # already resources
       resources :orders, only: [:index, :show, :update]
     end
   end
 
   namespace :merchant do
-    get '/', to: 'merchant#show'
+    # get '/', to: 'merchant#show'
+    root to: "merchant#show"
+
+    # already resources
     resources :orders, only: [:show]
     resources :items, only: [:index, :update, :destroy]
     resources :discounts, only:[:index, :new, :create, :update, :edit, :destroy]
   end
 
   namespace :admin do
-    get '/', to: 'admin#show'
-    get '/users', to: 'users#index'
-    get '/users/:id', to: 'users#show'
+    # get '/', to: 'admin#show'
+    root to: "admin#show"
+
+    # get '/users', to: 'users#index'
+    # get '/users/:id', to: 'users#show'
+    resources :users, only: [:index, :show]
+
+    # already resources
     resources :merchants, only: [:index, :show, :update]
     resources :orders, only: [:update]
   end
 
-  # TO BE NAMESPACED
-  get "/merchants", to: "merchants#index"
-  get "/merchants/new", to: "merchants#new"
-  get "/merchants/:id", to: "merchants#show"
-  post "/merchants", to: "merchants#create"
-  get "/merchants/:id/edit", to: "merchants#edit"
-  patch "/merchants/:id", to: "merchants#update"
-  delete "/merchants/:id", to: "merchants#destroy"
+  # get "/merchants", to: "merchants#index"
+  # get "/merchants/new", to: "merchants#new"
+  # get "/merchants/:id", to: "merchants#show"
+  # post "/merchants", to: "merchants#create"
+  # get "/merchants/:id/edit", to: "merchants#edit"
+  # patch "/merchants/:id", to: "merchants#update"
+  # delete "/merchants/:id", to: "merchants#destroy"
+  resources :merchants
 
-  get "/items", to: "items#index"
-  get "/items/:id", to: "items#show"
-  get "/items/:id/edit", to: "items#edit"
-  patch "/items/:id", to: "items#update"
+  # get "/items", to: "items#index"
+  # get "/items/:id", to: "items#show"
+  # get "/items/:id/edit", to: "items#edit"
+  # patch "/items/:id", to: "items#update"
+  resources :items, only: [:index, :show, :edit, :update]
+
+  resources :merchants do
+    resource :items, only: [:new, :create]
+  end
+  # get "/merchants/:merchant_id/items/new", to: "items#new"
+  # post "/merchants/:merchant_id/items", to: "items#create"
+
+  # this route didn't populate with the above resource. I am not sure why.
   get "/merchants/:merchant_id/items", to: "items#index"
-  get "/merchants/:merchant_id/items/new", to: "items#new"
-  post "/merchants/:merchant_id/items", to: "items#create"
-  delete "/items/:id", to: "items#destroy"
 
-  get "/items/:item_id/reviews/new", to: "reviews#new"
-  post "/items/:item_id/reviews", to: "reviews#create"
+  resources :items, only: [:destroy]
+  # delete "/items/:id", to: "items#destroy"
 
-  get "/reviews/:id/edit", to: "reviews#edit"
-  patch "/reviews/:id", to: "reviews#update"
-  delete "/reviews/:id", to: "reviews#destroy"
+  resources :items do
+    resource :reviews, only: [:new, :create]
+  end
+  # get "/items/:item_id/reviews/new", to: "reviews#new"
+  # post "/items/:item_id/reviews", to: "reviews#create"
 
+  resources :reviews
+  # get "/reviews/:id/edit", to: "reviews#edit"
+  # patch "/reviews/:id", to: "reviews#update"
+  # delete "/reviews/:id", to: "reviews#destroy"
+
+  resource :cart, only: [:show], :controller => 'cart'
+  # get "/cart", to: "cart#show"
+
+  # not restful routes cannot use resources
   post "/cart/:item_id", to: "cart#add_item"
-  get "/cart", to: "cart#show"
   patch "/cart/:item_id", to: "cart#increment_decrement"
   delete "/cart", to: "cart#empty"
   delete "/cart/:item_id", to: "cart#remove_item"
 
-  get "/orders/new", to: "orders#new"
-  post "/orders", to: "orders#create"
-  get "/orders/:id", to: "orders#show"
+  resources :orders
+  # get "/orders/new", to: "orders#new"
+  # post "/orders", to: "orders#create"
+  # get "/orders/:id", to: "orders#show"
 
   resources :item_orders, only: [:update]
 end
